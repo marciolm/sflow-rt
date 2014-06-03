@@ -1,0 +1,1 @@
+This a fork of sflow-rt project from Peter Phaal with some hacks I've done in order to run his examples at http://blog.sflow.com/2013/08/frenetic-pyretic-and-resonance.html with the new Resonance version.
