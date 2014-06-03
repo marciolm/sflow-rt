@@ -40,7 +40,7 @@ python json_sender.py --flow='{srcip=10.0.0.2}' -e ids -s clean -a 127.0.0.1 -p 
 
 In the browser:
 
-http://172.0.0.1:8008/metric/ALL/ddos/html
+http://127.0.0.1:8008/metric/ALL/ddos/html
 
 
 
