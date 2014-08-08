@@ -47,7 +47,7 @@ function jsonPut(target,path,value,callback) {
 function sendy(address,type,state) {
   function callback(error, stdout, stderr) { };
     exec("../pyretic/pyretic/pyresonance/json_sender.py --flow='{srcip=" 
-        + address + "}' -e " + type + " -s " + state + " -a 127.0.0.1 -p 50002", callback);  
+        + address + "}' -e " + type + " -s " + state + " -a 127.0.0.1 -p 50003", callback);  
 //    exec("../pyretic/pyretic/pyresonance/json_sender.py --flow='{srcip=10.0.0.1}' -e ids -s infected -a 127.0.0.1 -p 50002", callback);
 }
 
@@ -55,17 +55,21 @@ function getEvents(id) {
   jsonGet(rt,'/events/json?maxEvents=10&timeout=60&eventID='+ id,
     function(events) {
       var nextID = id;
+      console.log("Run:" + (new Date()).getTime());
+      console.log("Length:" + events.length);
       if(events.length > 0) {
         nextID = events[0].eventID;
+	console.log("EventID:" + nextID);
         events.reverse();
         var now = (new Date()).getTime();
+	console.log("Timestamp:" + now);
         for(var i = 0; i < events.length; i++) {
           var evt = events[i];
           var dt = now - evt.timestamp;
-          if(metricName == evt.thresholdID
-            && Math.abs(dt) < 5000) {
-            var flowKey = evt.flowKey;
-            sendy(flowKey,"ids","clear");
+          if(metricName == evt.thresholdID  //ddos
+            && Math.abs(dt) < 5000) {   // 5s 
+            var flowKey = evt.flowKey;  //IP address
+            sendy(flowKey,"ids","attack"); //IP,ids,attack
           }
         }
       }
